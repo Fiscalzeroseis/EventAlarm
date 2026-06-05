@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
-import { subHours, subDays, subMinutes } from 'date-fns';
+import { subMinutes } from 'date-fns';
 import { useEventStore } from '../store/eventStore';
 
 export function EventForm() {

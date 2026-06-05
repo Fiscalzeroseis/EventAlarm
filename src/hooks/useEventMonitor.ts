@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { useEventStore, type EventItem } from '../store/eventStore';
-import { parseISO, isBefore, isPast } from 'date-fns';
+import { parseISO, isPast } from 'date-fns';
 
 export function useEventMonitor() {
   const { events, updateEvent, setEvents } = useEventStore();
@@ -28,7 +28,7 @@ export function useEventMonitor() {
       .on(
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'events' },
-        (payload) => {
+        () => {
           // Lógica opcional para adicionar na store automaticamente se outro cliente criar (mas já temos no form local)
           // setEvents([...events, payload.new as EventItem])
         }
@@ -43,8 +43,6 @@ export function useEventMonitor() {
   // Monitorar a cada minuto
   useEffect(() => {
     const checkAlerts = () => {
-      const now = new Date();
-      
       // Encontrar primeiro evento não notificado cujo alert_date_time já passou ou é agora
       const triggeredEvent = events.find((event) => {
         if (event.is_notified) return false;

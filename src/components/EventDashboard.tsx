@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { useEventStore, type EventItem } from '../store/eventStore';
 import { format, isPast, parseISO } from 'date-fns';
@@ -27,8 +27,6 @@ export function EventDashboard() {
 
     fetchEvents();
   }, [setEvents]);
-
-  const now = new Date();
 
   // Separar eventos em próximos e passados
   const upcomingEvents = events.filter(e => !isPast(parseISO(e.event_date_time)));
